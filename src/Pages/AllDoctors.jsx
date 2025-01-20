@@ -28,7 +28,13 @@ const AllDoctors = () => {
         <div className={`lg:flex lg:flex-col lg:static absolute top-10px bg-white w-[82%] sm:w-[400px] lg:gap-5 lg:w-[210px] ${isOpen ? 'block' : 'hidden'}`}>
           {specialityData.map((item, index) => {
             return (
-              <p key={index} onClick={() => speciality === `${item.speciality}` ? navigate('/alldoctors') : navigate(`/alldoctors/${item.speciality}`)} className={`text-[13px] font-medium border border-gray-300 rounded py-1.5 text-left pl-4 pr-16 cursor-pointer duration-75 mb-3 lg:mb-0 ${speciality === item.speciality ? 'bg-[#EAEFFF] text-black' : ' text-gray-500'}`}>{item.speciality}</p>
+              <p key={index} onClick={() => {
+                speciality === `${item.speciality}`
+                  ? navigate('/alldoctors')
+                  : navigate(`/alldoctors/${item.speciality}`);
+                setIsOpen(!open);
+              }}
+               className={`text-[13px] font-medium border border-gray-300 rounded py-1.5 text-left pl-4 pr-16 cursor-pointer duration-75 mb-3 lg:mb-0 ${speciality === item.speciality ? 'bg-[#EAEFFF] text-black' : ' text-gray-500'}`}>{item.speciality}</p>
             )
           })}
         </div>

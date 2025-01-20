@@ -111,7 +111,7 @@ const Navbar = () => {
           </NavLink>
         </ul>
         <div
-          className={`lg:block ${isOpen ? 'block' : 'hidden'} bg-white pt-8 pb-[200%] lg:p-0 absolute lg:static top-[330px] left-0 w-[100%] text-center lg:w-auto z-10`}
+          className={`lg:block ${isOpen ? 'block' : 'hidden'} bg-white pt-8 pb-[200%] lg:p-0 absolute lg:static top-[325px] left-0 w-[100%] text-center lg:w-auto z-10`}
         >
           <NavLink to={'/login'}>
             <button
