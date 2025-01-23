@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';  // Import useLocation
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
-import { AppContext } from '../context/AppContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

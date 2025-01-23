@@ -13,6 +13,7 @@ const ErrorBoundary = React.lazy(() => import('./Components/ErrorBoundary'));
 const Appointment = React.lazy(() => import('./Pages/Appointment'))
 import Loader from './Loader/Loader';
 import Footer from './Components/Footer';
+import Register from './Pages/Register';
 
 function App() {
   // Define routes
@@ -26,6 +27,7 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="admin" element={<AdminPanel />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path='appointment' element={<Appointment />} />
         <Route path='appointment/:docId' element={<Appointment />} />
         <Route path="*" element={<ErrorBoundary />} />

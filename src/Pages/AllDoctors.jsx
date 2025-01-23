@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppContext } from '../context/AppContext';
+import { doctors,specialityData } from '../assets/assets_frontend/assets';
 
 const AllDoctors = () => {
-  const { doctors, specialityData } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
   const [filterDoc, setFilterDoc] = useState([]);
   const { speciality } = useParams();

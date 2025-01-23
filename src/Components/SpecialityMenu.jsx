@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
-import { AppContext } from '../context/AppContext'
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { specialityData } from '../assets/assets_frontend/assets';
 
 const SpecialityMenu = () => {
-    const { specialityData } = useContext(AppContext);
     const navigate = useNavigate();
     return (
         <div id='speciality' className='py-16 max-[500px]:py-14 flex flex-col justify-center items-center gap-3'>

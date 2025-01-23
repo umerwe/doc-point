@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppContext } from '../context/AppContext';
 import Loader from '../Loader/Loader';
-import { assets } from '../assets/assets_frontend/assets';
+import { assets,doctors } from '../assets/assets_frontend/assets';
 
 const Appointment = () => {
     const navigate = useNavigate()
     const { docId } = useParams();
-    const { doctors } = useContext(AppContext);
     const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
     const [docInfo, setDocInfo] = useState({});
@@ -51,7 +49,7 @@ const Appointment = () => {
 
             if (today.getDate() === currentDate.getDate()) {
                 currentDate.setHours(currentDate.getHours() > 12 ? currentDate.getHours() : 12)
-                currentDate.setMinutes(currentDate.getMinutes() > 30 ? 0 : 30)
+                currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0)
             }
             else {
                 currentDate.setHours(12);
