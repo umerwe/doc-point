@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebas
 import { auth } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../store/slices/loginSlice';
+import { login } from '../store/slices/LoginSlice';
 
 const Login = () => {
   const dispatch = useDispatch();
