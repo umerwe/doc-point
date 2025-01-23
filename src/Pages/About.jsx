@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react'
 import { assets } from '../assets/assets_frontend/assets'
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux'
-import { increment } from '../store/slices/loginSlice';
 
 const About = () => {
   return (
