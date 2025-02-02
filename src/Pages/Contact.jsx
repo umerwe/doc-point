@@ -1,5 +1,6 @@
 import React from 'react'
 import { assets } from '../assets/assets_frontend/assets'
+import Footer from '../Components/Footer'
 const Contact = () => {
   return (
     <div>
@@ -21,6 +22,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

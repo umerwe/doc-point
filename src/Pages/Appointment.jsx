@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../Loader/Loader';
 import { assets,doctors } from '../assets/assets_frontend/assets';
+import Footer from '../Components/Footer';
 
 const Appointment = () => {
     const navigate = useNavigate()
@@ -188,6 +189,7 @@ const Appointment = () => {
                     })
                 }
             </div>
+            <Footer />
         </div >
     )
 }

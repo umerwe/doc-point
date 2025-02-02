@@ -1,11 +1,13 @@
 import React from 'react'
 import Footer from '../Components/Footer'
-const AdminPanel = () => {
+
+const Profile = () => {
   return (
     <div>
+      <h1>MY PROFILE</h1>
       <Footer />
     </div>
   )
 }
 
-export default AdminPanel
+export default Profile

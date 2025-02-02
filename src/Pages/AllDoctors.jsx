@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { doctors,specialityData } from '../assets/assets_frontend/assets';
+import Footer from '../Components/Footer';
 
 const AllDoctors = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,6 +60,7 @@ const AllDoctors = () => {
           })}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
