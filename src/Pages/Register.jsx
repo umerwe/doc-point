@@ -24,9 +24,9 @@ const Register = () => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         console.log(authUser)
-        const { email, uid } = authUser;
-        dispatch(register({ email, uid }))
-        localStorage.setItem('register', JSON.stringify({ email, uid }))
+        const { email, uid, displayName } = authUser;
+        dispatch(register({ email, uid, displayName }))
+        localStorage.setItem('register', JSON.stringify({ email, uid, displayName }))
       } else {
         localStorage.removeItem('register')
         dispatch(register({}))
@@ -38,6 +38,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const { fullName, email, password } = credentials;
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -46,8 +47,9 @@ const Register = () => {
       // Update user's displayName
       await updateProfile(user, { displayName: fullName });
       const name = user.displayName;
-      
+
       window.notify(`Welcome ${name}`, "success");
+
       setCredentials({ email: '', password: '', fullName: '' });
     } catch (error) {
       window.notify(error.message || "Something went wrong", "error");
@@ -82,15 +84,15 @@ const Register = () => {
               <p>Please sign up to book appointment</p>
               <div className="w-full ">
                 <p>Full Name</p>
-                <input onChange={handleChange} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="text" name='fullName' value={credentials.fullName} />
+                <input onChange={handleChange} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="text" name='fullName' value={credentials.fullName} required />
               </div>
               <div className="w-full ">
                 <p>Email</p>
-                <input onChange={handleChange} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="email" name='email' value={credentials.email} />
+                <input onChange={handleChange} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="email" name='email' value={credentials.email} required />
               </div>
               <div className="w-full ">
                 <p>Password</p>
-                <input onChange={handleChange} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="password" name='password' value={credentials.password} />
+                <input onChange={handleChange} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="password" name='password' value={credentials.password} required />
               </div>
               <button
                 className="bg-primary text-white w-full py-2 my-2 rounded-md text-sm sm:text-base flex items-center justify-center"

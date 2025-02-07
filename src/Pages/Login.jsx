@@ -18,9 +18,9 @@ const Login = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
-        const { email, uid } = authUser;
-        localStorage.setItem('user', JSON.stringify({ email, uid })); // Add this
-        dispatch(login({ email, uid }));
+        const { email, uid ,displayName } = authUser;
+        localStorage.setItem('user', JSON.stringify({ email, uid,displayName })); // Add this
+        dispatch(login({ email, uid, displayName}));
       } else {
         localStorage.removeItem('user'); // Add this
         dispatch(login({}));
