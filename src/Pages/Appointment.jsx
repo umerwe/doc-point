@@ -5,6 +5,7 @@ import { assets, doctors } from '../assets/assets_frontend/assets';
 import Footer from '../Components/Footer';
 import { collection, addDoc } from "firebase/firestore/lite";
 import { db } from '../config/firebase';
+import { auth } from '../config/firebase';
 const Appointment = () => {
     const navigate = useNavigate();
     const { docId } = useParams();
@@ -100,26 +101,34 @@ const Appointment = () => {
 
         const { name, speciality, address, image } = docInfo;
         const { date, time } = bookAppointment;
-
         try {
-            await addDoc(collection(db, "appointment"), { name, speciality, address, image, date, time });
+            const user = auth.currentUser;
+
+            await addDoc(collection(db, "appointment"), {
+                name,
+                speciality,
+                address,
+                image,
+                date,
+                time,
+                userId: user.uid // ✅ Store the logged-in user ID
+            });
 
             setLoading(false);
             setSuccess(true);
-            console.log("Appointment booked successfully!");
 
             // Reset success state after animation
             setTimeout(() => {
                 setSuccess(false);
                 navigate("/my-appointments");
-                scrollTo(0,0)
+                scrollTo(0, 0);
             }, 2000);
 
         } catch (error) {
-            console.error("Error adding document: ", error);
             setLoading(false);
         }
     }
+
 
     return (
         <form className="mt-6">
