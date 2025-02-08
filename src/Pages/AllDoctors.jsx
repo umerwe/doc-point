@@ -5,6 +5,7 @@ import Footer from '../Components/Footer';
 
 const AllDoctors = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [filterOpen,setFilterOpen] = useState(false);
   const [filterDoc, setFilterDoc] = useState([]);
   const { speciality } = useParams();
   const navigate = useNavigate();
@@ -23,14 +24,14 @@ const AllDoctors = () => {
   return (
     <div className='text-gray-500'>
       <p className='font-medium py-5'>Browse through the doctors specialist.</p>
-      <button onClick={() => setIsOpen(!isOpen)} className={`py-1 px-3 border rounded text-sm  transition-all lg:hidden mb-3 text-black ${isOpen ? 'bg-primary text-white ' : ''}`}>Filters</button>
+      <button onClick={() => {setIsOpen(!isOpen); setFilterOpen(true)}} className={`py-1 px-3 border rounded text-sm  transition-all lg:hidden mb-3 text-black ${filterOpen ? 'bg-primary text-white ' : ''}`}>Filters</button>
       <div className='flex gap-5 '>
         <div className={`lg:flex lg:flex-col lg:static absolute top-10px bg-white w-[82%] sm:w-[400px] lg:gap-5 lg:w-[210px] ${isOpen ? 'block' : 'hidden'}`}>
           {specialityData.map((item, index) => {
             return (
               <p key={index} onClick={() => {
                 speciality === `${item.speciality}`
-                  ? navigate('/alldoctors')
+                  ? navigate('/alldoctors') && setFilterOpen(false)
                   : navigate(`/alldoctors/${item.speciality}`);
                 setIsOpen(!open);
               }}

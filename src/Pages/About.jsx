@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { assets } from '../assets/assets_frontend/assets'
+import Footer from '../Components/Footer'
 
 const About = () => {
   return (
@@ -32,6 +33,7 @@ const About = () => {
           <p>Tailored recommendations and reminders to help you stay on top of your health.</p>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

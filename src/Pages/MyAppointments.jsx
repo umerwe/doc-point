@@ -1,66 +1,174 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../Components/Footer";
-import { collection, getDocs, query, where } from "firebase/firestore/lite";
+import { Modal, message, Button } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  deleteDoc,
+} from "firebase/firestore/lite";
 import { db, auth } from "../config/firebase";
+import Footer from "../Components/Footer";
 import AppointmentLoader from "../Loader/AppointmentLoader";
-import { onAuthStateChanged } from "firebase/auth";
 
 const MyAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    // With private routing in place, we assume the user is already authenticated.
+    const user = auth.currentUser;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchAppointments = async () => {
+      setLoading(true);
       try {
-        const q = query(collection(db, "appointment"), where("userId", "==", user.uid));
+        const q = query(
+          collection(db, "appointment"),
+          where("userId", "==", user.uid)
+        );
         const querySnapshot = await getDocs(q);
-        setAppointments(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setAppointments(
+          querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
       } catch (error) {
         console.error("Error fetching appointments:", error);
       } finally {
         setLoading(false);
       }
-    });
+    };
 
-    return () => unsubscribe();
+    fetchAppointments();
   }, []);
 
+  // Show the confirmation modal and store the appointment ID to delete.
+  const showDeleteModal = (id) => {
+    setSelectedAppointmentId(id);
+    setIsModalVisible(true);
+  };
+  console.log(selectedAppointmentId)
+
+  // Delete the appointment when the user confirms.
+  const handleModalOk = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteDoc(doc(db, "appointment", selectedAppointmentId));
+      setAppointments((prev) =>
+        prev.filter((appt) => appt.id !== selectedAppointmentId)
+      );
+      message.success("Appointment cancelled successfully!");
+    } catch (error) {
+      message.error("Failed to cancel appointment.");
+    } finally {
+      setIsDeleting(false);
+      setIsModalVisible(false);
+      setSelectedAppointmentId(null);
+    }
+  };
+
+  // Close the modal if the user cancels the deletion.
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+    message.info("Appointment not cancelled.");
+    setSelectedAppointmentId(null);
+  };
+
   return (
-    <div>
-      <p className="pb-3 mt-12 text-lg font-medium text-gray-600 border-b">
+    <div className="min-h-screen p-4">
+      <p className="pb-3 mt-4 text-md font-medium text-gray-600 border-b">
         My Appointments
       </p>
       <div className="flex flex-col">
         {loading ? (
           <AppointmentLoader />
         ) : appointments.length > 0 ? (
-          appointments.map(({ id, name, speciality, address, image, date, time }) => (
-            <div key={id} className="grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-4 border-b">
-              <img className="w-36 bg-[#EAEFFF]" src={image} alt="Doctor" />
-              <div className="flex-1 text-sm text-[#5E5E5E]">
-                <p className="text-[#262626] text-base font-semibold">{name}</p>
-                <p>{speciality}</p>
-                <p className="text-[#464646] font-medium mt-1">Address:</p>
-                <p>{address?.line1}</p>
-                <p>{address?.line2}</p>
-                <p className="mt-1">
-                  <span className="text-sm text-[#3C3C3C] font-medium">Date & Time:</span> {date} | {time}
-                </p>
+          appointments.map(
+            ({ id, name, speciality, address, image, date, time }) => (
+              <div
+                key={id}
+                className="flex flex-col justify-between min-[721px]:flex-row items-start min-[721px]:items-center gap-4 min-[721px]:gap-6 py-4 border-b"
+              >
+                <div className="flex gap-4">
+                  <img
+                    className="w-28 min-[721px]:w-36 bg-[#EAEFFF] object-cover"
+                    src={image}
+                    alt="Doctor"
+                  />
+                  <div className="flex-1 text-xs min-[450px]:text-sm text-[#5E5E5E]">
+                    <p className="text-[#262626] text-sm min-[450px]:text-base font-semibold">{name}</p>
+                    <p>{speciality}</p>
+                    <p className="text-[#464646] font-medium mt-1">Address:</p>
+                    <p>{address?.line1}</p>
+                    <p>{address?.line2}</p>
+                    <p className="mt-1">
+                      <span className="text-xs min-[450px]:text-sm text-[#3C3C3C] font-medium">
+                        Date & Time:
+                      </span>{" "}
+                      {date} | {time}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2 w-full min-[721px]:w-auto text-sm text-center">
+                  <button
+                    className="text-[#696969] w-full min-[721px]:w-auto py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
+                  >
+                    Pay Online
+                  </button>
+                  <button
+                    onClick={() => showDeleteModal(id)}
+                    className="text-[#696969] w-full min-[721px]:w-auto py-2 px-4 lg:px-8 border rounded hover:bg-red-600 hover:text-white transition-all duration-300"
+                  >
+                    Cancel Appointment
+                  </button>
+                </div>
               </div>
-              <div className="flex flex-col gap-2 justify-end text-sm text-center">
-                <button className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300">
-                  Pay Online
-                </button>
-                <button className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300">
-                  Cancel Appointment
-                </button>
-              </div>
-            </div>
-          ))
+
+            )
+          )
         ) : (
-          <p className="text-center text-gray-500 py-4">No appointments found.</p>
+          <p className="text-center text-gray-500 py-4">
+            No appointments found.
+          </p>
         )}
       </div>
+
+      {/* Custom responsive modal without the default footer */}
+      <Modal
+        title={
+          <div className="flex items-center">
+            <ExclamationCircleOutlined className="text-red-500 mr-2" />
+            <span>Cancel Appointment?</span>
+          </div>
+        }
+        open={isModalVisible}
+        onCancel={handleModalCancel}
+        centered
+        getContainer={false}
+        width="90%"
+        style={{ maxWidth: "500px" }}
+        footer={null}
+        className="responsive-modal !p-4"
+      >
+        <p className="text-gray-600">
+          This action cannot be undone. Please confirm if you wish to cancel the
+          appointment.
+        </p>
+        <div className="w-full flex justify-end mt-4 space-x-4">
+          <Button type="primary" onClick={handleModalOk} loading={isDeleting}>
+            Yes, Cancel
+          </Button>
+          <Button onClick={handleModalCancel}>No, Keep It</Button>
+        </div>
+      </Modal>
+
       <Footer />
     </div>
   );

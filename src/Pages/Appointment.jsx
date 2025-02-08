@@ -6,6 +6,7 @@ import Footer from '../Components/Footer';
 import { collection, addDoc } from "firebase/firestore/lite";
 import { db } from '../config/firebase';
 import { auth } from '../config/firebase';
+
 const Appointment = () => {
     const navigate = useNavigate();
     const { docId } = useParams();
@@ -88,12 +89,13 @@ const Appointment = () => {
         let date = item.dateTime;
         let time = item.time;
         let day = date.getDate();
-        let month = date.toLocaleString("en-US", { month: "short" }); // Feb
+        let month = date.toLocaleString("en-US", { month: "short" });
         let year = date.getFullYear();
         let formattedDate = `${day.toString().padStart(2, "0")} ${month} ${year}`;
 
         setBookAppointment({ date: formattedDate, time: time });
     }
+
     async function handleClick(e) {
         e.preventDefault();
         setLoading(true);
@@ -129,7 +131,6 @@ const Appointment = () => {
         }
     }
 
-
     return (
         <form className="mt-6">
             {isLoading ? (
@@ -140,21 +141,22 @@ const Appointment = () => {
                         <img className="bg-primary w-full sm:max-w-60 lg:max-w-72 rounded-lg" src={docInfo.image} alt="" />
                     </div>
                     <div className="flex-1 border border-[#ADADAD] rounded-lg px-4 min-[1024px]:p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-70px] sm:mt-0">
-                        <p className="flex items-center gap-2 text-2xl lg:text-3xl font-medium text-gray-700">{docInfo.name}
+                        <p className="flex items-center gap-2 text-2xl lg:text-3xl font-medium text-gray-700">
+                            {docInfo.name}
                             <img className="w-5" src={assets.verified_icon} alt="" />
                         </p>
-                        <div className="max-[1024px]:text-sm  flex items-center gap-2 mt-1 text-gray-600">
+                        <div className="max-[1024px]:text-sm flex items-center gap-2 mt-1 text-gray-600">
                             <p>{docInfo.degree} - {docInfo.speciality}</p>
-                            <button className="py-0.5 px-2 border text-xs rounded-full">{docInfo.experience}</button>
+                            <p className="py-0.5 px-2 border text-xs rounded-full">{docInfo.experience}</p>
                         </div>
                         <div>
-                            <p className="flex items-center gap-1 text-sm font-medium text-[#262626] mt-3">About
-                                <img className="w-3" src={assets.info_icon} alt="" />
+                            <p className="flex items-center gap-1 text-sm font-medium text-[#262626] mt-3">
+                                About <img className="w-3" src={assets.info_icon} alt="" />
                             </p>
                             <p className="text-xs min-[1024px]:text-sm text-gray-600 max-w-[700px] mt-1">{docInfo.about}</p>
                         </div>
-                        <p className="text-gray-600 font-semibold mt-4 max-[1024px]:text-sm">Appointment fee:
-                            <span className="text-gray-800 font-bold"> ${docInfo.fees}</span>
+                        <p className="text-gray-600 font-semibold mt-4 max-[1024px]:text-sm">
+                            Appointment fee: <span className="text-gray-800 font-bold"> ${docInfo.fees}</span>
                         </p>
                     </div>
                 </div>
@@ -166,7 +168,11 @@ const Appointment = () => {
                     {docSlots.map((item, index) => (
                         <div
                             key={index}
-                            onClick={() => setSlotIndex(index)}
+                            onClick={() => {
+                                setSlotIndex(index);
+                                // Clear any previously selected time slot when switching day
+                                setBookAppointment({ date: "", time: "" });
+                            }}
                             className={`text-center py-6 min-w-16 rounded-full cursor-pointer border ${slotIndex === index ? "bg-primary text-white" : ""
                                 }`}
                         >
@@ -193,8 +199,8 @@ const Appointment = () => {
                 </div>
                 <button
                     onClick={handleClick}
-                    className="bg-primary text-white text-sm font-medium px-16 md:px-20 py-3 rounded-full my-6 flex items-center gap-2 transition-all duration-300 relative"
-                    disabled={loading}
+                    className="bg-primary text-white text-sm font-medium px-16 md:px-20 py-3 rounded-full my-6 flex items-center gap-2 transition-all duration-300 relative disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
+                    disabled={loading || bookAppointment.date === "" || bookAppointment.time === ""}
                 >
                     {success ? (
                         <span className="flex items-center gap-2">
