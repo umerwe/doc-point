@@ -3,12 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../Loader/Loader';
 import { assets, doctors } from '../assets/assets_frontend/assets';
 import Footer from '../Components/Footer';
-import { collection, addDoc } from "firebase/firestore/lite";
-import { db } from '../config/firebase';
-import { auth } from '../config/firebase';
+import { collection, addDoc } from "firebase/firestore";
+import { db,auth } from '../config/firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAppointment } from '../store/slices/LoginSlice';
 
 const Appointment = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const appointmentUser = useSelector(store => store.LoginSlice.appointmentUser)
     const { docId } = useParams();
     const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
@@ -100,37 +103,52 @@ const Appointment = () => {
         e.preventDefault();
         setLoading(true);
         setSuccess(false);
-
+    
         const { name, speciality, address, image } = docInfo;
         const { date, time } = bookAppointment;
         try {
-            const user = auth.currentUser;
-
-            await addDoc(collection(db, "appointment"), {
-                name,
-                speciality,
-                address,
-                image,
-                date,
-                time,
-                userId: user.uid // ✅ Store the logged-in user ID
-            });
-
-            setLoading(false);
-            setSuccess(true);
-
-            // Reset success state after animation
-            setTimeout(() => {
-                setSuccess(false);
-                navigate("/my-appointments");
-                scrollTo(0, 0);
-            }, 2000);
-
+          const user = auth.currentUser;
+          const docRef = await addDoc(collection(db, "appointment"), {
+            name,
+            speciality,
+            address,
+            image,
+            date,
+            time,
+            userId: user.uid, // Store the logged-in user ID
+          });
+    
+          // Create a new appointment object with the Firestore ID
+          const newAppointment = {
+            id: docRef.id, 
+            name,
+            speciality,
+            address,
+            image,
+            date,
+            time,
+            userId: user.uid
+          };
+    
+          // Dispatch to Redux store (this will update localStorage as well)
+          dispatch(addAppointment(newAppointment));
+    
+          setLoading(false);
+          setSuccess(true);
+    
+          // Reset success state after animation then navigate to MyAppointments
+          setTimeout(() => {
+            setSuccess(false);
+            navigate("/my-appointments");
+            scrollTo(0, 0);
+          }, 2000);
+    
         } catch (error) {
-            setLoading(false);
+          console.error("Error adding appointment:", error);
+          setLoading(false);
         }
-    }
-
+      }
+    
     return (
         <form className="mt-6">
             {isLoading ? (

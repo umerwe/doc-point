@@ -18,7 +18,7 @@ const Profile = () => {
             <p className="text-blue-500">{user.email}</p>
             <p className="font-medium">Phone:</p>
             <p className="text-blue-500">000000000</p>
-            <p className="font-medium">Address:</p>
+            <p className="font-medium" contentEditable>Address:</p>
             <p className="text-gray-500">
               <br />
             </p>

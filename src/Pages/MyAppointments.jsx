@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Modal, message, Button } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  doc,
-  deleteDoc,
-} from "firebase/firestore/lite";
+import { collection, getDocs, query, where, doc, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import Footer from "../Components/Footer";
 import AppointmentLoader from "../Loader/AppointmentLoader";
+import { useDispatch, useSelector } from "react-redux";
+import { removeAppointments } from '../store/slices/LoginSlice';
 
 const MyAppointments = () => {
-  const [appointments, setAppointments] = useState([]);
+  const dispatch = useDispatch();  // Added dispatch here
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const appointmentUser = useSelector(store => store.LoginSlice.appointmentUser);
+  console.log(appointmentUser);
+
   useEffect(() => {
-    // With private routing in place, we assume the user is already authenticated.
     const user = auth.currentUser;
     if (!user) {
       setLoading(false);
@@ -36,9 +33,7 @@ const MyAppointments = () => {
           where("userId", "==", user.uid)
         );
         const querySnapshot = await getDocs(q);
-        setAppointments(
-          querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
+
       } catch (error) {
         console.error("Error fetching appointments:", error);
       } finally {
@@ -54,16 +49,13 @@ const MyAppointments = () => {
     setSelectedAppointmentId(id);
     setIsModalVisible(true);
   };
-  console.log(selectedAppointmentId)
 
   // Delete the appointment when the user confirms.
   const handleModalOk = async () => {
     setIsDeleting(true);
     try {
       await deleteDoc(doc(db, "appointment", selectedAppointmentId));
-      setAppointments((prev) =>
-        prev.filter((appt) => appt.id !== selectedAppointmentId)
-      );
+      dispatch(removeAppointments(selectedAppointmentId));
       message.success("Appointment cancelled successfully!");
     } catch (error) {
       message.error("Failed to cancel appointment.");
@@ -89,8 +81,8 @@ const MyAppointments = () => {
       <div className="flex flex-col">
         {loading ? (
           <AppointmentLoader />
-        ) : appointments.length > 0 ? (
-          appointments.map(
+        ) : appointmentUser.length > 0 ? (
+          appointmentUser.map(
             ({ id, name, speciality, address, image, date, time }) => (
               <div
                 key={id}
@@ -130,7 +122,6 @@ const MyAppointments = () => {
                   </button>
                 </div>
               </div>
-
             )
           )
         ) : (
@@ -158,8 +149,7 @@ const MyAppointments = () => {
         className="responsive-modal !p-4"
       >
         <p className="text-gray-600">
-          This action cannot be undone. Please confirm if you wish to cancel the
-          appointment.
+          This action cannot be undone. Please confirm if you wish to cancel the appointment.
         </p>
         <div className="w-full flex justify-end mt-4 space-x-4">
           <Button type="primary" onClick={handleModalOk} loading={isDeleting}>

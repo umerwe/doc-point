@@ -4,6 +4,7 @@ import { auth } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/slices/LoginSlice';
+import { Eye, EyeOff } from 'lucide-react'; // Import eye icons
 import Loader from '../Loader/Loader';
 import Footer from '../Components/Footer';
 
@@ -13,41 +14,36 @@ const Login = () => {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
-  // Track user authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         const { email, uid ,displayName } = authUser;
-        localStorage.setItem('user', JSON.stringify({ email, uid,displayName })); // Add this
-        dispatch(login({ email, uid, displayName}));
+        localStorage.setItem('user', JSON.stringify({ email, uid, displayName }));
+        dispatch(login({ email, uid, displayName }));
       } else {
-        localStorage.removeItem('user'); // Add this
+        localStorage.removeItem('user');
         dispatch(login({}));
       }
     });
     return () => unsubscribe();
   }, [dispatch]);
 
-
-  // Redirect if user is already logged in
   useEffect(() => {
     if (user?.email) navigate('/');
   }, [user, navigate]);
 
-  // Handle input changes
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  // Handle login submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const { email, password } = credentials;
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
       const name = userCredential.user.displayName;
       window.notify(`Welcome ${name}`, "success");
       setCredentials({ email: '', password: '' });
@@ -79,17 +75,24 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="w-full">
+            <div className="w-full relative">
               <p>Password</p>
               <input
                 onChange={handleChange}
-                className="border border-[#DADADA] rounded w-full p-2 mt-1"
-                type="password"
+                className="border border-[#DADADA] rounded w-full p-2 mt-1 pr-10"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={credentials.password}
                 disabled={loading}
                 required
               />
+              <button
+                type="button"
+                className="absolute right-2 top-[70%] translate-y-[-50%] text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
             <button
               className="bg-primary text-white w-full py-2 my-2 rounded-md text-sm sm:text-base flex items-center justify-center"
