@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';  // Import useLocation
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { login, register } from '../store/slices/LoginSlice';
-
 const Navbar = () => {
   let user = useSelector(store => store.LoginSlice.user)
   const location = useLocation();
@@ -23,6 +22,7 @@ const Navbar = () => {
     }
     setIsOpen(false);
   };
+  
 
   // Get the active class based on current location
   const getActiveClass = (link) => {

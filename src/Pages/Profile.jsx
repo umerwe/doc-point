@@ -1,6 +1,7 @@
 import React from 'react'
 import Footer from '../Components/Footer'
 import { useSelector } from 'react-redux'
+import { doctors } from '../assets/assets_frontend/assets'
 
 const Profile = () => {
   const user = useSelector(store => store.LoginSlice.user)
