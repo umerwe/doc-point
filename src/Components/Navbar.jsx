@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { assets } from '../assets/assets_frontend/assets';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';  // Import useLocation
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { login, register } from '../store/slices/LoginSlice';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../config/firebase';
+import { allDoctors } from '../store/slices/LoginSlice';
+
 const Navbar = () => {
   let user = useSelector(store => store.LoginSlice.user)
   const location = useLocation();
@@ -22,7 +26,7 @@ const Navbar = () => {
     }
     setIsOpen(false);
   };
-  
+
 
   // Get the active class based on current location
   const getActiveClass = (link) => {
@@ -45,6 +49,23 @@ const Navbar = () => {
         window.notify("SomeThing went wrong!", "error");
       })
   };
+
+
+  useEffect(() => {
+    const doctorsRef = collection(db, "doctors");
+
+    // Real-time listener
+    const unsubscribe = onSnapshot(doctorsRef, (snapshot) => {
+      const doctorList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      dispatch(allDoctors(doctorList))
+      setIsLoading(false)
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, []);
 
   return (
     <div>
@@ -172,7 +193,7 @@ const Navbar = () => {
                   <NavLink to="my-appointments" onClick={() => setProfileDropdown(false)}>
                     <p className="hover:text-black cursor-pointer">My Appointments</p>
                   </NavLink>
-                  <p onClick={() => {handleSignOut(); setProfileDropdown(false)}} className="hover:text-black cursor-pointer">
+                  <p onClick={() => { handleSignOut(); setProfileDropdown(false) }} className="hover:text-black cursor-pointer">
                     Logout
                   </p>
                 </div>

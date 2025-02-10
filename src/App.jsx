@@ -14,7 +14,6 @@ const Appointment = React.lazy(() => import('./Pages/Appointment'))
 const Profile = React.lazy(() => import('./Pages/Profile'))
 const MyAppointments = React.lazy(() => import('./Pages/MyAppointments'))
 import Loader from './Loader/Loader';
-import Footer from './Components/Footer';
 import Register from './Pages/Register';
 import { useSelector } from 'react-redux';
 
