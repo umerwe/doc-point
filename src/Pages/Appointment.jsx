@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../Loader/Loader';
-import { assets, doctors } from '../assets/assets_frontend/assets';
 import Footer from '../Components/Footer';
 import { collection, addDoc } from "firebase/firestore";
-import { db,auth } from '../config/firebase';
+import { db, auth } from '../config/firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAppointment } from '../store/slices/LoginSlice';
+import { assets } from '../assets/assets_frontend/assets';
+import { Check } from "lucide-react";
 
 const Appointment = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const appointmentUser = useSelector(store => store.LoginSlice.appointmentUser)
     const { docId } = useParams();
     const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    const doctors = useSelector(store => store.LoginSlice.doctors)
 
     const [docInfo, setDocInfo] = useState({});
     const [isLoading, setIsLoading] = useState(true);
@@ -98,57 +99,62 @@ const Appointment = () => {
 
         setBookAppointment({ date: formattedDate, time: time });
     }
-
     async function handleClick(e) {
         e.preventDefault();
         setLoading(true);
         setSuccess(false);
-    
-        const { name, speciality, address, image } = docInfo;
-        const { date, time } = bookAppointment;
-        try {
-          const user = auth.currentUser;
-          const docRef = await addDoc(collection(db, "appointment"), {
-            name,
-            speciality,
-            address,
-            image,
-            date,
-            time,
-            userId: user.uid, // Store the logged-in user ID
-          });
-    
-          // Create a new appointment object with the Firestore ID
-          const newAppointment = {
-            id: docRef.id, 
-            name,
-            speciality,
-            address,
-            image,
-            date,
-            time,
-            userId: user.uid
-          };
-    
-          // Dispatch to Redux store (this will update localStorage as well)
-          dispatch(addAppointment(newAppointment));
-    
-          setLoading(false);
-          setSuccess(true);
-    
-          // Reset success state after animation then navigate to MyAppointments
-          setTimeout(() => {
-            setSuccess(false);
-            navigate("/my-appointments");
-            scrollTo(0, 0);
-          }, 2000);
-    
-        } catch (error) {
-          console.error("Error adding appointment:", error);
-          setLoading(false);
+
+        if (!auth.currentUser) {
+            navigate('/login')
+            scrollTo(0, 0)
         }
-      }
-    
+        else {
+            const { name, speciality, address, image } = docInfo;
+            const { date, time } = bookAppointment;
+            try {
+                const user = auth.currentUser;
+                const docRef = await addDoc(collection(db, "appointment"), {
+                    name,
+                    speciality,
+                    address,
+                    image,
+                    date,
+                    time,
+                    userId: user.uid, // Store the logged-in user ID
+                });
+
+                // Create a new appointment object with the Firestore ID
+                const newAppointment = {
+                    id: docRef.id,
+                    name,
+                    speciality,
+                    address,
+                    image,
+                    date,
+                    time,
+                    userId: user.uid
+                };
+
+                // Dispatch to Redux store (this will update localStorage as well)
+                dispatch(addAppointment(newAppointment));
+
+                setLoading(false);
+                setSuccess(true);
+
+                // Reset success state after animation then navigate to MyAppointments
+                setTimeout(() => {
+                    setSuccess(false);
+                    navigate("/my-appointments");
+                    scrollTo(0, 0);
+                }, 2000);
+
+            } catch (error) {
+                console.error("Error adding appointment:", error);
+                setLoading(false);
+            }
+        }
+    }
+
     return (
         <form className="mt-6">
             {isLoading ? (
@@ -224,7 +230,7 @@ const Appointment = () => {
                         <span className="flex items-center gap-2">
                             Appointment Booked!
                             <span className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
-                                <span className="text-[12px] text-white pb-1">✔</span>
+                                <Check size={14} strokeWidth={4} className='text-primary' />
                             </span>
                         </span>
                     ) : loading ? (
@@ -236,6 +242,43 @@ const Appointment = () => {
                         "Book an appointment"
                     )}
                 </button>
+
+            </div>
+            <div className='text-center mt-16 mb-8'>
+                <p className='text-3xl font-semibold mb-3 max-[332px]:text-[25px]'>Related Doctors</p>
+                <p className='text-sm'>Simply browse through our extensive list of trusted<br className='hidden md:block' />
+                    doctors
+                </p>
+            </div>
+            <div className={'w-full grid grid-cols-1 min-[530px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 px-3 sm:px-0'}>
+                {
+                    relatedDoc?.map((item, index) => {
+                        return (
+                            <div
+                                key={index}
+                                onClick={() => {
+                                    navigate(`/appointment/${item._id}`);
+                                    window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scrolling
+                                }}
+                                className='border border-[#C9D8FF] rounded-xl overflow-hidden hover:translate-y-[-10px] transition-all duration-500 cursor-pointer max-[530px]:max-w-[300px] max-[530px]:m-auto'
+                            >
+                                <div className='bg-[#EAEFFF]'>
+                                    <img className='m-auto' src={item.image} alt="" />
+                                </div>
+                                <div className='px-4 pt-3 pb-4'>
+                                    <div className='flex items-center gap-2 text-sm max-[540px]:text-[13px] text-center text-green-500'>
+                                        <p className="w-2 h-2 rounded-full bg-green-500"></p>
+                                        <p>Available</p>
+                                    </div>
+                                    <div>
+                                        <p className='lg:text-[17px] xl:text-[18px] text-[#262626] font-semibold'>{item.name}</p>
+                                        <p className='text-[#5C5C5C] text-[13px]'>{item.speciality}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
             </div>
             <Footer />
         </form>

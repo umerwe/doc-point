@@ -61,7 +61,6 @@ const Navbar = () => {
         ...doc.data(),
       }));
       dispatch(allDoctors(doctorList))
-      setIsLoading(false)
     });
 
     return () => unsubscribe(); // Cleanup on unmount

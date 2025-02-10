@@ -116,7 +116,7 @@ const Register = () => {
                 className="absolute right-2 top-[70%] translate-y-[-50%] text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
             </div>
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { specialityData } from '../assets/assets_frontend/assets';
-import AppointmentLoader from '../Loader/AppointmentLoader'
 import { useSelector } from 'react-redux';
 import Footer from '../Components/Footer';
 
