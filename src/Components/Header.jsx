@@ -35,7 +35,7 @@ const header = () => {
                 </div>
             </div>
             <div className="w-[500px] max-[1040px]:w-[350px] max-[1370px]:w-[400px]  relative m-auto lg:m-0 mt-4 mb-4 lg:mt-0 max-[500px]:w-[270px] max-[361px]:w-[250px]">
-                <img className=' w-full static lg:absolute lg:bottom-0 lg:h-auto rounded-lg' src='/images/header_img.svg' alt="" />
+                <img className=' w-full static lg:absolute lg:bottom-0 lg:h-auto rounded-lg' src={assets.header_img} alt="" />
             </div>
         </div>
     )
