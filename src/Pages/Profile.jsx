@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Footer from '../Components/Footer'
 import { useSelector } from 'react-redux'
 
 const Profile = () => {
-  const user = useSelector(store => store.LoginSlice.user)
+  const user = useSelector(store => store.LoginSlice.user);
+  const [isClicked, setIsClicked] = useState(false);
+
   return (
     <div>
       <div className="max-w-lg flex flex-col gap-2 text-sm pt-5">
@@ -15,11 +17,16 @@ const Profile = () => {
           <div className="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-[#363636]">
             <p className="font-medium">Email id:</p>
             <p className="text-blue-500">{user.email}</p>
-            <p className="font-medium">Phone:</p>
+            <p className="font-medium">Phone: </p>
+            {
+              isClicked ? 
+              <input type="hi" />
+              :
+              
             <p className="text-blue-500">000000000</p>
-            <p className="font-medium" contentEditable>Address:</p>
+            }
+            <p className="font-medium">Address:</p>
             <p className="text-gray-500">
-              <img src="/doc1 1.svg" alt="" />
               <br />
             </p>
           </div>
@@ -34,7 +41,8 @@ const Profile = () => {
           </div>
         </div>
         <div className="mt-10">
-          <button className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all">Edit</button>
+          <button onClick={() => setIsClicked(true)} className={`border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all ${isClicked ? 'hidden' : 'block'}`}>Edit</button>
+          <button onClick={() => setIsClicked(false)} className={`border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all ${isClicked ? 'block' : 'hidden'}`}>Save Information</button>
         </div>
       </div>
       <Footer />

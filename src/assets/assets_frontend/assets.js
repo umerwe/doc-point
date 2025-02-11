@@ -36,9 +36,11 @@ import Internist from './Internist.svg'
 import Gynecologist from './Gynecologist.svg'
 import Neurologist from './Neurologist.svg'
 import Pediatricians from './Pediatricians.svg'
+import HeaderImage from './header_img.svg'
 
 
 export const assets = {
+    HeaderImage,
     appointment_img,
     header_img,
     group_profiles,

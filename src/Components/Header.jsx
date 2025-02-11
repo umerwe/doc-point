@@ -4,8 +4,8 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 
 const header = () => {
     const ScrollButton = () => {
-          const element = document.getElementById('speciality');
-          if (element) {
+        const element = document.getElementById('speciality');
+        if (element) {
             element.scrollIntoView({ behavior: 'smooth' }); // Smooth scrolling effect
         }
     }
@@ -28,14 +28,14 @@ const header = () => {
                     <button className='flex items-center gap-1 bg-white text-[#565656] px-7 py-2 max-[1100px]:px-6 rounded-full 
                     text-sm max-[400px]:px-6 max-[400px]:text-xs max-[400px]:mt-2 
                     hover:scale-105 transition-all duration-300'
-                    onClick={ScrollButton}
+                        onClick={ScrollButton}
                     >Book Appointment
                         <span className='text-2xl mt-[3px]'><IoIosArrowRoundForward /></span>
                     </button>
                 </div>
             </div>
             <div className="w-[500px] max-[1040px]:w-[350px] max-[1370px]:w-[400px]  relative m-auto lg:m-0 mt-4 mb-4 lg:mt-0 max-[500px]:w-[270px] max-[361px]:w-[250px]">
-                <img className=' w-full static lg:absolute lg:bottom-0 lg:h-auto rounded-lg' src={assets.header_img} alt="" />
+                <img className=' w-full static lg:absolute lg:bottom-0 lg:h-auto rounded-lg' src='/images/header_img-min 1.svg' alt="" />
             </div>
         </div>
     )
