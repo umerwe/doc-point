@@ -19,6 +19,7 @@ const Profile = () => {
             <p className="text-blue-500">000000000</p>
             <p className="font-medium" contentEditable>Address:</p>
             <p className="text-gray-500">
+              <img src="/doc1 1.svg" alt="" />
               <br />
             </p>
           </div>

@@ -4,7 +4,7 @@ import Loader from '../Loader/Loader';
 import Footer from '../Components/Footer';
 import { collection, addDoc } from "firebase/firestore";
 import { db, auth } from '../config/firebase';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { assets } from '../assets/assets_frontend/assets';
 import { Check } from "lucide-react";
 
