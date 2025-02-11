@@ -6,7 +6,7 @@ import { db, auth } from "../config/firebase";
 import Footer from "../Components/Footer";
 import AppointmentLoader from "../Loader/AppointmentLoader";
 import { useDispatch, useSelector } from "react-redux";
-import { removeAppointments } from '../store/slices/LoginSlice';
+import { addAppointment, removeAppointments } from '../store/slices/LoginSlice';
 
 const MyAppointments = () => {
   const dispatch = useDispatch();  // Added dispatch here
@@ -14,35 +14,34 @@ const MyAppointments = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-
+  
+  const authUser = useSelector(store => store.LoginSlice.user);
   const appointmentUser = useSelector(store => store.LoginSlice.appointmentUser);
-  console.log(appointmentUser);
+
 
   useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) {
-      setLoading(false);
-      return;
-    }
-
     const fetchAppointments = async () => {
       setLoading(true);
       try {
-        const q = query(
-          collection(db, "appointment"),
-          where("userId", "==", user.uid)
-        );
+        const q = query(collection(db, "appointment"), where("userId", "==", authUser.uid));
         const querySnapshot = await getDocs(q);
-
+  
+        const appointments = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+  
+        dispatch(addAppointment(appointments));
       } catch (error) {
         console.error("Error fetching appointments:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchAppointments();
   }, []);
+  
 
   // Show the confirmation modal and store the appointment ID to delete.
   const showDeleteModal = (id) => {

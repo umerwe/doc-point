@@ -5,13 +5,11 @@ import Footer from '../Components/Footer';
 import { collection, addDoc } from "firebase/firestore";
 import { db, auth } from '../config/firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAppointment } from '../store/slices/LoginSlice';
 import { assets } from '../assets/assets_frontend/assets';
 import { Check } from "lucide-react";
 
 const Appointment = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const { docId } = useParams();
     const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
     const doctors = useSelector(store => store.LoginSlice.doctors)
@@ -123,21 +121,6 @@ const Appointment = () => {
                     userId: user.uid, // Store the logged-in user ID
                 });
 
-                // Create a new appointment object with the Firestore ID
-                const newAppointment = {
-                    id: docRef.id,
-                    name,
-                    speciality,
-                    address,
-                    image,
-                    date,
-                    time,
-                    userId: user.uid
-                };
-
-                // Dispatch to Redux store (this will update localStorage as well)
-                dispatch(addAppointment(newAppointment));
-
                 setLoading(false);
                 setSuccess(true);
 
@@ -146,7 +129,7 @@ const Appointment = () => {
                     setSuccess(false);
                     navigate("/my-appointments");
                     scrollTo(0, 0);
-                }, 2000);
+                }, 1000);
 
             } catch (error) {
                 console.error("Error adding appointment:", error);
