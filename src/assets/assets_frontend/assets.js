@@ -1,46 +1,30 @@
-import appointment_img from './appointment_img.png'
-import header_img from './header_img.png'
-import group_profiles from './group_profiles.png'
-import profile_pic from './profile_pic.png'
-import contact_image from './contact_image.png'
-import about_image from './about_image.png'
-import logo from './logo.svg'
-import dropdown_icon from './dropdown_icon.svg'
-import menu_icon from './menu_icon.svg'
-import cross_icon from './cross_icon.png'
-import chats_icon from './chats_icon.svg'
-import verified_icon from './verified_icon.svg'
-import arrow_icon from './arrow_icon.svg'
-import info_icon from './info_icon.svg'
-import upload_icon from './upload_icon.png'
-import stripe_logo from './stripe_logo.png'
-import razorpay_logo from './razorpay_logo.png'
-import doc1 from './doc1.png'
-import doc2 from './doc2.png'
-import doc3 from './doc3.png'
-import doc4 from './doc4.png'
-import doc5 from './doc5.png'
-import doc6 from './doc6.png'
-import doc7 from './doc7.png'
-import doc8 from './doc8.png'
-import doc9 from './doc9.png'
-import doc10 from './doc10.png'
-import doc11 from './doc11.png'
-import doc12 from './doc12.png'
-import doc13 from './doc13.png'
-import doc14 from './doc14.png'
-import doc15 from './doc15.png'
-import Dermatologist from './Dermatologist.svg'
-import Gastroenterologist from './Gastroenterologist.svg'
-import Internist from './Internist.svg'
-import Gynecologist from './Gynecologist.svg'
-import Neurologist from './Neurologist.svg'
-import Pediatricians from './Pediatricians.svg'
-import HeaderImage from './header_img.svg'
+import appointment_img from './appointment_img.webp'
+import header_img from './header_img.webp'
+import group_profiles from './group_profiles.webp'
+import profile_pic from './profile_pic.webp'
+import contact_image from './contact_image.webp'
+import about_image from './about_image.webp'
+import logo from './logo.webp'
+import dropdown_icon from './dropdown_icon.webp'
+import menu_icon from './menu_icon.webp'
+import cross_icon from './cross_icon.webp'
+import chats_icon from './chats_icon.webp'
+import verified_icon from './verified_icon.webp'
+import arrow_icon from './arrow_icon.webp'
+import info_icon from './info_icon.webp'
+import upload_icon from './upload_icon.webp'
+import stripe_logo from './stripe_logo.webp'
+import razorpay_logo from './razorpay_logo.webp'
+import Dermatologist from './Dermatologist.webp'
+import Gastroenterologist from './Gastroenterologist.webp'
+import Internist from './Internist.webp'
+import Gynecologist from './Gynecologist.webp'
+import Neurologist from './Neurologist.webp'
+import Pediatricians from './Pediatricians.webp'
 
 
 export const assets = {
-    HeaderImage,
+    header_img,
     appointment_img,
     header_img,
     group_profiles,
@@ -91,7 +75,7 @@ export const doctors = [
     {
         _id: 'doc1',
         name: 'Dr. Richard James',
-        image: '/images/doc1.png',
+        image: '/images/doc1.webp',
         speciality: 'Internist',
         degree: 'MBBS',
         experience: '4 Years',
@@ -105,7 +89,7 @@ export const doctors = [
     {
         _id: 'doc2',
         name: 'Dr. Emily Larson',
-        image: '/images/doc2.png',
+        image: '/images/doc2.webp',
         speciality: 'Gynecologist',
         degree: 'MBBS',
         experience: '3 Years',
@@ -119,7 +103,7 @@ export const doctors = [
     {
         _id: 'doc3',
         name: 'Dr. Sarah Patel',
-        image: '/images/doc3.png',
+        image: '/images/doc3.webp',
         speciality: 'Dermatologist',
         degree: 'MBBS',
         experience: '1 Years',
@@ -133,7 +117,7 @@ export const doctors = [
     {
         _id: 'doc4',
         name: 'Dr. Christopher Lee',
-        image: '/images/doc4.png',
+        image: '/images/doc4.webp',
         speciality: 'Pediatricians',
         degree: 'MBBS',
         experience: '2 Years',
@@ -147,7 +131,7 @@ export const doctors = [
     {
         _id: 'doc5',
         name: 'Dr. Jennifer Garcia',
-        image: '/images/doc5.png',
+        image: '/images/doc5.webp',
         speciality: 'Neurologist',
         degree: 'MBBS',
         experience: '4 Years',
@@ -161,7 +145,7 @@ export const doctors = [
     {
         _id: 'doc6',
         name: 'Dr. Andrew Williams',
-        image: '/images/doc6.png',
+        image: '/images/doc6.webp',
         speciality: 'Gastroenterologist',
         degree: 'MBBS',
         experience: '4 Years',
@@ -175,7 +159,7 @@ export const doctors = [
     {
         _id: 'doc7',
         name: 'Dr. Christopher Davis',
-        image: '/images/doc7.png',
+        image: '/images/doc7.webp',
         speciality: 'Internist',
         degree: 'MBBS',
         experience: '4 Years',
@@ -189,7 +173,7 @@ export const doctors = [
     {
         _id: 'doc8',
         name: 'Dr. Timothy White',
-        image: '/images/doc8.png',
+        image: '/images/doc8.webp',
         speciality: 'Gynecologist',
         degree: 'MBBS',
         experience: '3 Years',
@@ -203,7 +187,7 @@ export const doctors = [
     {
         _id: 'doc9',
         name: 'Dr. Ava Mitchell',
-        image: '/images/doc9.png',
+        image: '/images/doc9.webp',
         speciality: 'Dermatologist',
         degree: 'MBBS',
         experience: '1 Years',
@@ -217,7 +201,7 @@ export const doctors = [
     {
         _id: 'doc10',
         name: 'Dr. Jeffrey King',
-        image: '/images/doc10.png',
+        image: '/images/doc10.webp',
         speciality: 'Pediatricians',
         degree: 'MBBS',
         experience: '2 Years',
@@ -231,7 +215,7 @@ export const doctors = [
     {
         _id: 'doc11',
         name: 'Dr. Zoe Kelly',
-        image: '/images/doc11.png',
+        image: '/images/doc11.webp',
         speciality: 'Neurologist',
         degree: 'MBBS',
         experience: '4 Years',
@@ -245,7 +229,7 @@ export const doctors = [
     {
         _id: 'doc12',
         name: 'Dr. Patrick Harris',
-        image: '/images/doc12.png',
+        image: '/images/doc12.webp',
         speciality: 'Gastroenterologist',
         degree: 'MBBS',
         experience: '4 Years',
@@ -259,7 +243,7 @@ export const doctors = [
     {
         _id: 'doc13',
         name: 'Dr. Chloe Evans',
-        image: '/images/doc13.png',
+        image: '/images/doc13.webp',
         speciality: 'Internist',
         degree: 'MBBS',
         experience: '4 Years',
@@ -273,7 +257,7 @@ export const doctors = [
     {
         _id: 'doc14',
         name: 'Dr. Ryan Martinez',
-        image: '/images/doc14.png',
+        image: '/images/doc14.webp',
         speciality: 'Gynecologist',
         degree: 'MBBS',
         experience: '3 Years',
@@ -287,7 +271,7 @@ export const doctors = [
     {
         _id: 'doc15',
         name: 'Dr. Amelia Hill',
-        image: '/images/doc15.png',
+        image: '/images/doc15.webp',
         speciality: 'Dermatologist',
         degree: 'MBBS',
         experience: '1 Years',
