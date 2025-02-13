@@ -9,7 +9,8 @@ const About = React.lazy(() => import('./Pages/About'));
 const Contact = React.lazy(() => import('./Pages/Contact'));
 const AdminPanel = React.lazy(() => import('./Pages/AdminPanel'));
 const Login = React.lazy(() => import('./Pages/Login'));
-const ErrorBoundary = React.lazy(() => import('./Components/ErrorBoundary'));
+const ErrorBoundary = React.lazy(() => import('./Components/Error/ErrorBoundary'));
+const ErrorFallback = React.lazy(() => import('./Components/Error/ErrorFallback'));
 const Appointment = React.lazy(() => import('./Pages/Appointment'))
 const Profile = React.lazy(() => import('./Pages/Profile'))
 const MyAppointments = React.lazy(() => import('./Pages/MyAppointments'))
@@ -23,7 +24,7 @@ function App() {
   // Define routes
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<RootLayout />}>
+      <Route path="/" element={<RootLayout />} errorElement={<ErrorFallback />}>
         <Route index element={<Home />} />
         <Route path="alldoctors" element={<AllDoctors />} />
         <Route path='alldoctors/:speciality' element={<AllDoctors />} />
