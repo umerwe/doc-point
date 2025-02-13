@@ -5,9 +5,10 @@ const initialState = {
     JSON.parse(localStorage.getItem("register")) || {},
   appointmentUser: JSON.parse(localStorage.getItem("userData")) || [],
   doctors: JSON.parse(localStorage.getItem("doctors")) || [],
+  profileData: JSON.parse(localStorage.getItem("profileData")) || {},
 };
 
-export const LoginSlice = createSlice({
+export const loginSlice = createSlice({
   name: "loginSlice",
   initialState,
   reducers: {
@@ -31,9 +32,13 @@ export const LoginSlice = createSlice({
       );
       localStorage.setItem("userData", JSON.stringify(state.appointmentUser));
     },
+    updateProfileData: (state, action) => {
+      state.profileData = action.payload;
+      localStorage.setItem("profileData", JSON.stringify(state.profileData));
+    },
   },
 });
 
-export const { allDoctors, login, register, addAppointment, removeAppointments } =
-  LoginSlice.actions;
-export default LoginSlice.reducer;
+export const { allDoctors, login, register, addAppointment, removeAppointments, updateProfileData } =
+  loginSlice.actions;
+export default loginSlice.reducer;

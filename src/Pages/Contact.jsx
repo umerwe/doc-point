@@ -1,4 +1,4 @@
-import React from 'react'
+import Reactv from 'react'
 import { assets } from '../assets/assets_frontend/assets'
 import Footer from '../Components/Footer'
 const Contact = () => {
