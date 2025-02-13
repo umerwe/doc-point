@@ -36,6 +36,9 @@ const Profile = () => {
             // Also update local state so that the form shows current data
             setProfileForm(docSnap.data());
           }
+          else{
+            dispatch(updateProfileData(profileForm))
+          }
         } catch (error) {
           window.notify(error.message || "Something went wrong", "error");
         }
@@ -169,7 +172,7 @@ const Profile = () => {
         </div>
 
         {/* Edit / Save Buttons */}
-        <div className="mt-10">
+        <div className="mt-5">
           {!isEditing ? (
             <button
               onClick={handleEditClick}

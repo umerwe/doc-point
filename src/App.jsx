@@ -1,5 +1,5 @@
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider, Navigate, useNavigate } from 'react-router-dom';
-import React, { Suspense } from 'react';
+import React, {Suspense } from 'react';
 
 // Lazy load components
 const RootLayout = React.lazy(() => import('./Layout/RootLayout'));

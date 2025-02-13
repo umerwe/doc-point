@@ -12,6 +12,7 @@ import { allDoctors } from '../store/slices/LoginSlice';
 
 const Navbar = () => {
   let user = useSelector(store => store.LoginSlice.user)
+
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();

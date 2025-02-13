@@ -23,18 +23,26 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      if (authUser) {
-        const { email, uid, displayName } = authUser;
-        dispatch(register({ email, uid, displayName }));
-        localStorage.setItem('register', JSON.stringify({ email, uid, displayName }));
-      } else {
-        localStorage.removeItem('register');
-        dispatch(register({}));
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        // Force a reload to ensure the profile is updated
+        await currentUser.reload();
+        const updatedUser = auth.currentUser;
+        dispatch(register({
+          email: updatedUser.email,
+          uid: updatedUser.uid,
+          displayName: updatedUser.displayName,
+        }));
+        localStorage.setItem('register', JSON.stringify({
+          email: updatedUser.email,
+          uid: updatedUser.uid,
+          displayName: updatedUser.displayName,
+        }));
       }
     });
     return () => unsubscribe();
   }, [dispatch]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
