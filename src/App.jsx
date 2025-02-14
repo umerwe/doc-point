@@ -7,7 +7,6 @@ const Home = React.lazy(() => import('./Pages/Home'));
 const AllDoctors = React.lazy(() => import('./Pages/AllDoctors'));
 const About = React.lazy(() => import('./Pages/About'));
 const Contact = React.lazy(() => import('./Pages/Contact'));
-const AdminPanel = React.lazy(() => import('./Pages/AdminPanel'));
 const Login = React.lazy(() => import('./Pages/Login'));
 const ErrorBoundary = React.lazy(() => import('./Components/Error/ErrorBoundary'));
 const ErrorFallback = React.lazy(() => import('./Components/Error/ErrorFallback'));
@@ -30,7 +29,6 @@ function App() {
         <Route path='alldoctors/:speciality' element={<AllDoctors />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="admin" element={user.email ? <AdminPanel /> : <Navigate to={'/'} />} />
         <Route path="login" element={!(user.email) ? <Login /> : <Navigate to={'/'} />} />
         <Route path="register" element={<Register />} />
         <Route path='appointment' element={<Appointment />} />

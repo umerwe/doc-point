@@ -36,6 +36,7 @@ const Navbar = () => {
     }
     return location.pathname.startsWith(link) ? 'bg-primary text-white lg:bg-transparent rounded-md px-6 py-2 lg:p-0 lg:text-primary' : '';
   };
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -71,13 +72,9 @@ const Navbar = () => {
     <div>
       <nav className='font-outfit font-medium flex justify-between items-center py-4 px-4 md:px-6 shadow-md bg-white'>
         {/* Logo */}
-        <div>
-          <img
-            onClick={() => handleClick('img')}
-            className='max-[400px]:w-[150px] w-[160px] cursor-pointer'
-            src={assets.logo}
-            alt="Logo"
-          />
+        <div className='flex items-center gap-1'>
+          <img className='w-10 pt-1 lg:pt-0' src='/images/decktopus.svg' alt="" />
+          <h1 className='text-xl font-bold text-blue-900 pt-1.5 lg:pt-0'>DocPoint</h1>
         </div>
         <div className={`lg:hidden mt-3 ${user.email ? 'hidden' : ''}`}>
           <button
@@ -138,19 +135,6 @@ const Navbar = () => {
               className={`border-none lg:bg-primary w-[30px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/contact') ? 'block' : 'hidden'
                 }`}
             />
-          </NavLink>
-          <NavLink to={'/admin'}
-            className={user.email ? 'block' : 'hidden'}
-          >
-            <li className='border-[1px] py-1 text-sm rounded-full mt-[2px] w-[110px] m-auto'>
-              <button
-                href="#"
-                target='blank'
-                onClick={() => handleClick('/admin')}
-              >
-                Admin Panel
-              </button>
-            </li>
           </NavLink>
         </ul>
         <div

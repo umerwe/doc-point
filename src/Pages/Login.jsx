@@ -4,7 +4,7 @@ import { auth } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/slices/LoginSlice';
-import { Eye, EyeOff } from 'lucide-react'; // Import eye icons
+import { Eye, EyeOff } from 'lucide-react';
 import Loader from '../Loader/Loader';
 import Footer from '../Components/Footer';
 

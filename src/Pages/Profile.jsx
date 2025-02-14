@@ -115,19 +115,19 @@ const Profile = () => {
                 name="number"
                 value={profileForm.number}
                 type="number"
-                className="bg-gray-50 max-w-48 border-2 rounded-md pl-2 py-1 text-[13px] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                className="bg-gray-50 max-w-48 border-2 rounded-md pl-2 pt-[3px] pb-[4px] text-[13px] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 placeholder="Enter phone#"
               />
             ) : (
               <p className="text-blue-500">{number}</p>
             )}
-            <p className="font-medium">Address:</p>
+            <p className="font-medium mr-3">Address:</p>
             {isEditing ? (
               <textarea
                 name="address"
                 value={profileForm.address}
                 onChange={handleChange}
-                className="bg-gray-50 w-80 h-24 border-2 rounded-md px-[9px] py-[3px] resize-none text-[13px]"
+                className="bg-gray-50 max-[515px]:w-56 w-80 max-[515px]:h-20 h-24 border-2 rounded-md px-[9px] py-[3px] resize-none text-[13px]"
                 placeholder="Enter your address..."
               ></textarea>
             ) : (

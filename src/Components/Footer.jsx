@@ -1,13 +1,15 @@
 import React from 'react'
-import { assets } from '../assets/assets_frontend/assets'
 
 const Footer = () => {
     return (
         <div>
             <div className='mt-[90px] md:mt-[120px] pb-10 px-0 flex flex-col gap-10 lg-[870px]:flex lg:flex-row lg:justify-between text-gray-600'>
                 <div className='flex flex-col items-center text-center lg:text-left lg:items-start  lg:w-[500px]'>
-                    <img className='w-[170px]' src={assets.logo} alt="" />
-                    <p className=' text-sm leading-6 mt-4 px-[30px] lg:px-0 lg:pr-32 '>DocPoint is your trusted platform for booking doctor appointments.
+                    <div className='flex items-center gap-1'>
+                        <img className='w-10 lg:w-11 pt-1 lg:pt-0' src='/images/decktopus.svg' alt="" />
+                        <h1 className='text-xl font-bold text-blue-900 pt-1.5 lg:pt-0'>DocPoint</h1>
+                    </div>
+                    <p className=' text-sm leading-6 mt-4 px-[10px] lg:px-0 lg:pr-32 '>DocPoint is your trusted platform for booking doctor appointments.
                         Explore our extensive list of professionals, schedule hassle-free,
                         and access reliable healthcare resources, all designed to prioritize
                         your convenience and well-being.

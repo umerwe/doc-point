@@ -9,7 +9,7 @@ const Contact = () => {
           <span className="text-gray-700 font-semibold ml-1.5">US</span>
         </p>
         <div className="mt-10 flex flex-col justify-center md:flex-row gap-10 text-sm text-left">
-          <img className="w-full md:max-w-[360px]" src={assets.contact_image} alt="" />
+          <img className="w-full md:max-w-[360px] rounded-full" src={assets.contact_image} alt="" />
           <div className="flex flex-col justify-center items-start gap-6">
             <p className=" font-semibold text-lg text-gray-600">OUR OFFICE</p>
             <p className=" text-gray-500">00000 Willms Station <br />
