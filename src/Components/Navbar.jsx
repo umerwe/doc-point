@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';  // Import useLocation
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ const Navbar = () => {
   let user = useSelector(store => store.userSlice.user);
   let profileDataFromRedux = useSelector(store => store.userSlice.profileData);
   let { profilePic: profileImg } = profileDataFromRedux;
-
+  const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const defaultProfilePic =
@@ -101,9 +101,20 @@ const Navbar = () => {
     fetchProfileData();
   }, [user, dispatch]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <div>
-      <nav className='font-outfit font-medium flex justify-between items-center py-4 px-4 md:px-6 shadow-md bg-white mx-0 lg:mx-[8%]'>
+      <nav className='font-outfit font-medium flex justify-between items-center py-4 px-4 md:px-6 shadow-md bg-white mx-0 sm:mx-[8%]'>
         {/* Logo */}
         <div onClick={() => navigate('/')} className='flex items-center gap-1 cursor-pointer'>
           <img className='w-10 pt-1 lg:pt-0' src='/images/decktopus.svg' alt="" />
@@ -183,21 +194,26 @@ const Navbar = () => {
           </NavLink>
         </div>
         <div className={`items-center justify-center gap-4 ${user.email ? 'flex' : 'hidden'}`}>
-          <div className={`lg:hidden mt-3`}>
+          <div className="lg:hidden mt-3">
             <button
-              className='text-3xl text-primary'
+              className="text-3xl text-primary"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <HiX /> : <HiMenuAlt3 />}
             </button>
           </div>
-          <div className={`${user.email ? 'block ml-[2%]' : 'hidden'} flex items-center gap-2 cursor-pointer relative mt-1.5`}>
-            {/* Wrap the profile icons in a clickable element */}
+          {/* Attach the ref here */}
+          <div
+            ref={dropdownRef}
+            className={`${user.email ? 'block ml-[2%]' : 'hidden'} flex items-center gap-2 cursor-pointer relative mt-1.5`}
+          >
+            {/* Clickable profile icon */}
             <div onClick={() => setProfileDropdown(!profileDropdown)}>
               <img
-                className={`w-9 h-9 rounded-full object-cover bg-[#EFEBFF] ${profilePic ? 'border-3 border-primary-500 shadow-[0_0_10px_#3b82f6]' : ''}`}
+                className={`w-9 h-9 rounded-full object-cover bg-[#EFEBFF] ${profileImg ? 'border-3 border-primary-500 shadow-[0_0_10px_#3b82f6]' : ''
+                  }`}
                 src={profileImg ? profileImg : defaultProfilePic}
-                alt=""
+                alt="Profile"
               />
             </div>
 
@@ -210,7 +226,13 @@ const Navbar = () => {
                   <NavLink to="my-appointments" onClick={() => setProfileDropdown(false)}>
                     <p className="hover:text-black cursor-pointer">My Appointments</p>
                   </NavLink>
-                  <p onClick={() => { handleSignOut(); setProfileDropdown(false) }} className="hover:text-black cursor-pointer">
+                  <p
+                    onClick={() => {
+                      handleSignOut();
+                      setProfileDropdown(false);
+                    }}
+                    className="hover:text-black cursor-pointer"
+                  >
                     Logout
                   </p>
                 </div>

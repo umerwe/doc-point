@@ -8,7 +8,7 @@ const About = () => {
     <div className='mx-[8%]'>
       <div className="text-center text-2xl pt-14 text-[#707070]"><p>ABOUT <span className="text-gray-700 font-semibold">US</span></p></div>
       <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-8">
-        <div className='w-[80%] sm:w-[60%] md:w-[40%] lg:w-[35%] 2xl:w-[20%] flex items-center justify-center'>
+        <div className='w-[80%] sm:w-[60%] md:w-[40%] lg:w-[37%] 2xl:w-[20%] flex items-center justify-center'>
         <img className="w-full rounded-full" src={assets.about_image} alt="" />
         </div>
         <div className="flex flex-col justify-center gap-6 md:w-2/4 text-sm text-gray-600">
