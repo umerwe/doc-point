@@ -58,8 +58,7 @@ const Navbar = () => {
         navigate('/login');
       })
       .catch(error => {
-        console.error(error);
-        window.notify("Something went wrong!", "error");
+        window.notify("Something went wrong!", error);
       });
   };
 

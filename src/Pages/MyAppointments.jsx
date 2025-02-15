@@ -110,7 +110,6 @@ const MyAppointments = () => {
       dispatch(removeAppointments(selectedConfirmAppointmentId));
       message.success("Appointment confirmed successfully!");
     } catch (error) {
-      console.error("Error confirming appointment:", error);
       message.error("Failed to confirm appointment.");
     } finally {
       setIsConfirming(false);

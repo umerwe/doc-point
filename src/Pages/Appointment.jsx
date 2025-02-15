@@ -132,7 +132,6 @@ const Appointment = () => {
                 }, 1000);
 
             } catch (error) {
-                console.error("Error adding appointment:", error);
                 setLoading(false);
             }
         }
