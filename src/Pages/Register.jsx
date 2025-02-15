@@ -80,7 +80,7 @@ const Register = () => {
       {user.email ? (
         <Loader />
       ) : (
-        <form className="min-h-[87vh] flex items-center" onSubmit={handleSubmit}>
+        <form className="min-h-[85vh] lg:min-h-[87vh] flex items-center" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3 m-auto items-start p-7 sm:p-8 w-[350px] sm:w-[380px] border rounded-xl text-[#5E5E5E] text-xs sm:text-sm shadow-lg">
             <p className="text-xl sm:text-2xl font-semibold">Create Account</p>
             <p>Please sign up to book an appointment</p>
