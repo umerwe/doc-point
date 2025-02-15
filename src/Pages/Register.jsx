@@ -127,14 +127,9 @@ const Register = () => {
                 {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
             </div>
-
-            <button
-              className="bg-primary text-white w-full py-2 my-2 rounded-md text-sm sm:text-base flex items-center justify-center"
-              disabled={loading}
-            >
-              {loading ? <span className="animate-pulse">Registering...</span> : 'Register'}
+            <button className="bg-primary text-white w-full py-2 my-2 rounded-md text-sm sm:text-base flex items-center justify-center disabled:opacity-50" disabled={loading}>
+              {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin opacity-75"></span> : 'Register'}
             </button>
-
             <p>
               Already have an account?
               <span onClick={() => navigate('/login')} className="text-primary underline cursor-pointer ml-1">

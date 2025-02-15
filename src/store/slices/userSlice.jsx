@@ -17,10 +17,12 @@ export const userSlice = createSlice({
       localStorage.setItem("doctors", JSON.stringify(state.doctors));
     },
     login: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload || {};
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
     register: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload || {};
+      localStorage.setItem("register", JSON.stringify(state.user));
     },
     addAppointment: (state, action) => {
       state.appointmentUser = action.payload;
@@ -39,6 +41,12 @@ export const userSlice = createSlice({
   },
 });
 
-export const { allDoctors, login, register, addAppointment, removeAppointments, updateProfileData } =
-  userSlice.actions;
+export const {
+  allDoctors,
+  login,
+  register,
+  addAppointment,
+  removeAppointments,
+  updateProfileData,
+} = userSlice.actions;
 export default userSlice.reducer;

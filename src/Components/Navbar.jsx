@@ -4,10 +4,9 @@ import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
-import { addAppointment, login, register, removeAppointments, updateProfileData } from '../store/slices/userSlice';
+import { addAppointment, login, register, removeAppointments, updateProfileData, allDoctors } from '../store/slices/userSlice';
 import { collection, doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import { allDoctors } from '../store/slices/userSlice';
 
 const Navbar = () => {
   const location = useLocation();
@@ -25,8 +24,7 @@ const Navbar = () => {
 
   const [profilePic, setProfilePic] = useState(defaultProfilePic);
 
-
-  // Function to handle click
+  // Function to handle click on links
   const handleClick = (link) => {
     if (link === 'img') {
       navigate('/');
@@ -34,48 +32,52 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-
   // Get the active class based on current location
   const getActiveClass = (link) => {
     if (link === '/') {
-      return location.pathname === '/' ? 'bg-primary text-white lg:bg-transparent rounded-md px-6 py-2 lg:p-0 lg:text-primary' : '';
+      return location.pathname === '/' 
+        ? 'bg-primary text-white lg:bg-transparent rounded-md px-6 py-2 lg:p-0 lg:text-primary'
+        : '';
     }
-    return location.pathname.startsWith(link) ? 'bg-primary text-white lg:bg-transparent rounded-md px-6 py-2 lg:p-0 lg:text-primary' : '';
+    return location.pathname.startsWith(link) 
+      ? 'bg-primary text-white lg:bg-transparent rounded-md px-6 py-2 lg:p-0 lg:text-primary'
+      : '';
   };
 
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        dispatch(login({}))
-        dispatch(register({}))
-        dispatch(updateProfileData({ number: 'Empty', address: 'Empty', gender: 'Not Selected', birthDay: 'Not Selected' }))
-        dispatch(addAppointment([]))
-        dispatch(removeAppointments([]))
+        // Clear user state by setting it to null so that dependent queries won't run with an undefined UID
+        dispatch(login(null));
+        dispatch(register(null));
+        dispatch(updateProfileData({ number: 'Empty', address: 'Empty', gender: 'Not Selected', birthDay: 'Not Selected' }));
+        dispatch(addAppointment([]));
+        dispatch(removeAppointments([]));
         localStorage.clear();
         window.notify("Logout successfully!", "success");
-        navigate('/login')
+        navigate('/login');
       })
       .catch(error => {
-        console.error(error)
-        window.notify("SomeThing went wrong!", "error");
-      })
+        console.error(error);
+        window.notify("Something went wrong!", "error");
+      });
   };
-
 
   useEffect(() => {
     const doctorsRef = collection(db, "doctors");
 
-    // Real-time listener
+    // Real-time listener for doctors collection
     const unsubscribe = onSnapshot(doctorsRef, (snapshot) => {
       const doctorList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      dispatch(allDoctors(doctorList))
+      dispatch(allDoctors(doctorList));
     });
 
     return () => unsubscribe(); // Cleanup on unmount
-  }, []);
+  }, [dispatch]);
+
   useEffect(() => {
     const fetchProfileData = async () => {
       if (user?.uid) {
@@ -99,7 +101,7 @@ const Navbar = () => {
       }
     };
     fetchProfileData();
-  }, [user, dispatch]);
+  }, [user, dispatch, profileDataFromRedux]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -120,7 +122,7 @@ const Navbar = () => {
           <img className='w-10 pt-1 lg:pt-0' src='/images/decktopus.svg' alt="" />
           <h1 className='text-xl font-bold text-blue-900 pt-1.5 lg:pt-0'>DocPoint</h1>
         </div>
-        <div className={`lg:hidden mt-3 ${user.email ? 'hidden' : ''}`}>
+        <div className={`lg:hidden mt-3 ${user?.email ? 'hidden' : ''}`}>
           <button
             className='text-3xl text-primary'
             onClick={() => setIsOpen(!isOpen)}
@@ -130,7 +132,7 @@ const Navbar = () => {
         </div>
         <ul
           className={`flex lg:flex flex-col lg:flex-row gap-[17px] lg:gap-5 items-center text-[16px] lg:text-[13px] bg-white z-10
-         ${isOpen ? 'block' : 'hidden'} absolute lg:static lg:w-auto top-[85px] py-8 lg:py-0 ${user.email ? 'h-screen lg:h-auto' : 'pb-20'} lg:pb-0 left-0 w-[100%] text-center`}
+           ${isOpen ? 'block' : 'hidden'} absolute lg:static lg:w-auto top-[85px] py-8 lg:py-0 ${user?.email ? 'h-screen lg:h-auto' : 'pb-20'} lg:pb-0 left-0 w-[100%] text-center`}
         >
           <NavLink to={'/'}>
             <li
@@ -139,10 +141,7 @@ const Navbar = () => {
             >
               HOME
             </li>
-            <hr
-              className={`border-none lg:bg-primary w-[30px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/') ? 'block' : 'hidden'
-                }`}
-            />
+            <hr className={`border-none lg:bg-primary w-[30px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/') ? 'block' : 'hidden'}`} />
           </NavLink>
           <NavLink to={'/alldoctors'}>
             <li
@@ -151,10 +150,7 @@ const Navbar = () => {
             >
               ALL DOCTORS
             </li>
-            <hr
-              className={`border-none lg:bg-primary w-[60px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/alldoctors') ? 'block' : 'hidden'
-                }`}
-            />
+            <hr className={`border-none lg:bg-primary w-[60px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/alldoctors') ? 'block' : 'hidden'}`} />
           </NavLink>
           <NavLink to={'/about'}>
             <li
@@ -163,10 +159,7 @@ const Navbar = () => {
             >
               ABOUT
             </li>
-            <hr
-              className={`border-none lg:bg-primary w-[30px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/about') ? 'block' : 'hidden'
-                }`}
-            />
+            <hr className={`border-none lg:bg-primary w-[30px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/about') ? 'block' : 'hidden'}`} />
           </NavLink>
           <NavLink to={'/contact'}>
             <li
@@ -175,14 +168,11 @@ const Navbar = () => {
             >
               CONTACT
             </li>
-            <hr
-              className={`border-none lg:bg-primary w-[30px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/contact') ? 'block' : 'hidden'
-                }`}
-            />
+            <hr className={`border-none lg:bg-primary w-[30px] lg:w-3/5 h-0.5 mx-auto ${getActiveClass('/contact') ? 'block' : 'hidden'}`} />
           </NavLink>
         </ul>
         <div
-          className={`${isOpen ? 'block' : 'hidden'} bg-white pb-[200%] lg:p-0 absolute lg:static top-[310px] left-0 w-[100%] text-center lg:w-auto z-10 ${user.email ? 'hidden' : 'lg:block'}`}
+          className={`${isOpen ? 'block' : 'hidden'} bg-white pb-[200%] lg:p-0 absolute lg:static top-[310px] left-0 w-[100%] text-center lg:w-auto z-10 ${user?.email ? 'hidden' : 'lg:block'}`}
         >
           <NavLink to={'/login'}>
             <button
@@ -193,7 +183,7 @@ const Navbar = () => {
             </button>
           </NavLink>
         </div>
-        <div className={`items-center justify-center gap-4 ${user.email ? 'flex' : 'hidden'}`}>
+        <div className={`items-center justify-center gap-4 ${user?.email ? 'flex' : 'hidden'}`}>
           <div className="lg:hidden mt-3">
             <button
               className="text-3xl text-primary"
@@ -202,21 +192,18 @@ const Navbar = () => {
               {isOpen ? <HiX /> : <HiMenuAlt3 />}
             </button>
           </div>
-          {/* Attach the ref here */}
+          {/* Profile dropdown */}
           <div
             ref={dropdownRef}
-            className={`${user.email ? 'block ml-[2%]' : 'hidden'} flex items-center gap-2 cursor-pointer relative mt-1.5`}
+            className={`${user?.email ? 'block ml-[2%]' : 'hidden'} flex items-center gap-2 cursor-pointer relative mt-1.5`}
           >
-            {/* Clickable profile icon */}
             <div onClick={() => setProfileDropdown(!profileDropdown)}>
               <img
-                className={`w-9 h-9 rounded-full object-cover bg-[#EFEBFF] ${profileImg ? 'border-[2px] border-primary shadow-[0_0_7px_#3b82f6]' : ''
-                  }`}
+                className={`w-9 h-9 rounded-full object-cover bg-[#EFEBFF] ${profileImg ? 'border-[2px] border-primary shadow-[0_0_7px_#3b82f6]' : ''}`}
                 src={profileImg ? profileImg : defaultProfilePic}
                 alt="Profile"
               />
             </div>
-
             {profileDropdown && (
               <div className="absolute top-14 right-0 text-base font-medium text-gray-600 z-20">
                 <div className="min-w-48 bg-gray-50 rounded flex flex-col gap-4 p-4">
@@ -240,7 +227,6 @@ const Navbar = () => {
             )}
           </div>
         </div>
-
       </nav>
     </div>
   );

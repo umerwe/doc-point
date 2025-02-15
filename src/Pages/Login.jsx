@@ -19,7 +19,7 @@ const Login = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
-        const { email, uid ,displayName } = authUser;
+        const { email, uid, displayName } = authUser;
         localStorage.setItem('user', JSON.stringify({ email, uid, displayName }));
         dispatch(login({ email, uid, displayName }));
       } else {
@@ -94,12 +94,10 @@ const Login = () => {
                 {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
             </div>
-            <button
-              className="bg-primary text-white w-full py-2 my-2 rounded-md text-sm sm:text-base flex items-center justify-center"
-              disabled={loading}
-            >
-              {loading ? <span className="animate-pulse">Logging In...</span> : 'Login'}
+            <button className="bg-primary text-white w-full py-2 my-2 rounded-md text-sm sm:text-base flex items-center justify-center disabled:opacity-50" disabled={loading}>
+              {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin opacity-75"></span> : 'Login'}
             </button>
+
             <p>
               Create a new account?
               <span onClick={() => navigate('/register')} className="text-primary underline cursor-pointer ml-1">
