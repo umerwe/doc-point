@@ -210,7 +210,7 @@ const Navbar = () => {
             {/* Clickable profile icon */}
             <div onClick={() => setProfileDropdown(!profileDropdown)}>
               <img
-                className={`w-9 h-9 rounded-full object-cover bg-[#EFEBFF] ${profileImg ? 'border-3 border-primary-500 shadow-[0_0_10px_#3b82f6]' : ''
+                className={`w-9 h-9 rounded-full object-cover bg-[#EFEBFF] ${profileImg ? 'border-[2px] border-primary shadow-[0_0_7px_#3b82f6]' : ''
                   }`}
                 src={profileImg ? profileImg : defaultProfilePic}
                 alt="Profile"

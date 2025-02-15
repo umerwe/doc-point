@@ -132,7 +132,7 @@ const Profile = () => {
         {/* Profile Picture with overlay icon (visible only in edit mode) */}
         <div className="relative w-36 h-36">
           <img
-            className={`w-36 h-36 ${profileImg ? 'border-3 border-primary-500 shadow-[0_0_10px_#3b82f6]' : ''} rounded-full object-cover object-center cursor-pointer bg-[#EFEBFF]`}
+            className={`w-36 h-36 ${profileImg ? 'border-[2px] border-primary shadow-[0_0_7px_#3b82f6]' : ''} rounded-full object-cover object-center cursor-pointer bg-[#EFEBFF]`}
             src={profilePic}
             alt="Profile"
             onClick={handleProfilePicClick}
