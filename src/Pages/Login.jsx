@@ -3,14 +3,14 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/slices/LoginSlice';
+import { login } from '../store/slices/userSlice';
 import { Eye, EyeOff } from 'lucide-react';
 import Loader from '../Loader/Loader';
 import Footer from '../Components/Footer';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const user = useSelector(store => store.LoginSlice.user);
+  const user = useSelector(store => store.userSlice.user);
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='mx-[8%]'>
       {user.email ? (
         <Loader />
       ) : (

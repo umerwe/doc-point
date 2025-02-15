@@ -18,7 +18,7 @@ import Register from './Pages/Register';
 import { useSelector } from 'react-redux';
 
 function App() {
-  const user = useSelector(store => store.LoginSlice.user)
+  const user = useSelector(store => store.userSlice.user)
 
   // Define routes
   const router = createBrowserRouter(

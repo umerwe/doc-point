@@ -12,7 +12,7 @@ const Appointment = () => {
     const navigate = useNavigate();
     const { docId } = useParams();
     const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-    const doctors = useSelector(store => store.LoginSlice.doctors)
+    const doctors = useSelector(store => store.userSlice.doctors)
 
     const [docInfo, setDocInfo] = useState({});
     const [isLoading, setIsLoading] = useState(true);
@@ -139,7 +139,7 @@ const Appointment = () => {
     }
 
     return (
-        <form className="mt-6">
+        <form className="mt-6 mx-[8%]">
             {isLoading ? (
                 <Loader />
             ) : (

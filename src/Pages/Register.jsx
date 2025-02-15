@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../store/slices/LoginSlice';
+import { register } from '../store/slices/userSlice';
 import Loader from '../Loader/Loader';
 import { Eye, EyeOff } from 'lucide-react'; // Import eye icons
 
 const Register = () => {
   const navigate = useNavigate();
-  const user = useSelector(store => store.LoginSlice.user);
+  const user = useSelector(store => store.userSlice.user);
   const dispatch = useDispatch();
 
   const [credentials, setCredentials] = useState({
@@ -76,7 +76,7 @@ const Register = () => {
   }, [user, navigate]);
 
   return (
-    <div>
+    <div className='mx-[8%]'>
       {user.email ? (
         <Loader />
       ) : (

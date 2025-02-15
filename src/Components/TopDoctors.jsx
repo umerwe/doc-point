@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 const TopDoctors = () => {
     let navigate = useNavigate();
-    let doctors = useSelector(store => store.LoginSlice.doctors);
+    let doctors = useSelector(store => store.userSlice.doctors);
 
     return (
         <div className='py-6 max-[500px]:py-1 flex flex-col justify-center items-center'>
@@ -14,11 +14,11 @@ const TopDoctors = () => {
                 doctors.</p>
             {/* card */}
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-[30px] max-[540px]:grid-cols-1'>
-                {doctors.slice(0, 8).map((item, index) => {
+                {doctors.slice(0, 4).map((item, index) => {
                     return (
-                        <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} key={index} className='border border-[#C9D8FF] rounded-xl overflow-hidden hover:translate-y-[-10px] transition-all duration-500 cursor-pointer max-[540px]:flex' >
+                        <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} key={index} className='border border-[#C9D8FF] rounded-xl overflow-hidden hover:translate-y-[-10px] transition-all duration-500 cursor-pointer' >
                             <div className='bg-[#EAEFFF]'>
-                                <img className='w-[220px] max-[540px]:w-[100px]' src={item.image} alt="" loading='la' />
+                                <img className='w-[220px] max-[540px]:w-[250px]' src={item.image} alt="" loading='la' />
                             </div>
                             <div className='px-4 pt-3 pb-4'>
                                 <div className='flex items-center gap-2 text-sm max-[540px]:text-[13px] text-center text-green-500'>

@@ -7,7 +7,7 @@ import Footer from '../Components/Footer'
 
 const Home = () => {
   return (
-    <div>
+    <div className='mx-[8%]'>
       <Header />
       <SpecialityMenu />
       <TopDoctors />

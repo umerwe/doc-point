@@ -8,7 +8,7 @@ import Footer from "../Components/Footer";
 const AllDoctors = () => {
   const { speciality } = useParams();
   const navigate = useNavigate();
-  const doctors = useSelector((store) => store.LoginSlice.doctors);
+  const doctors = useSelector((store) => store.userSlice.doctors);
 
   const [isOpen, setIsOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -37,7 +37,7 @@ const AllDoctors = () => {
   }
 
   return (
-    <div className="text-gray-500">
+    <div className="text-gray-500 mx-[8%]">
       {isError ? (
         <NoDoctor />
       ) : (

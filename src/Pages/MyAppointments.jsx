@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Modal, message, Button } from "antd";
 import { ExclamationCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { collection, getDocs, query, where, doc, deleteDoc, addDoc } from "firebase/firestore";
-import { db, auth } from "../config/firebase";
+import { db } from "../config/firebase";
 import Footer from "../Components/Footer";
 import AppointmentLoader from "../Loader/AppointmentLoader";
 import { useDispatch, useSelector } from "react-redux";
-import { addAppointment, removeAppointments } from "../store/slices/LoginSlice";
+import { addAppointment, removeAppointments } from "../store/slices/userSlice";
 
 const MyAppointments = () => {
   const dispatch = useDispatch();
@@ -22,12 +22,12 @@ const MyAppointments = () => {
   const [selectedConfirmAppointmentId, setSelectedConfirmAppointmentId] = useState(null);
   const [isConfirming, setIsConfirming] = useState(false);
 
-  const authUser = useSelector((store) => store.LoginSlice.user);
-  const appointmentUser = useSelector((store) => store.LoginSlice.appointmentUser);
+  const authUser = useSelector((store) => store.userSlice.user);
+  const appointmentUser = useSelector((store) => store.userSlice.appointmentUser);
 
   useEffect(() => {
+    // Define the fetch function outside of immediate use of setLoading
     const fetchAppointments = async () => {
-      setLoading(true);
       try {
         const q = query(
           collection(db, "appointment"),
@@ -41,13 +41,21 @@ const MyAppointments = () => {
         dispatch(addAppointment(appointments));
       } catch (error) {
         console.error("Error fetching appointments:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchAppointments();
+    if (appointmentUser && appointmentUser.length > 0) {
+      // If cached data exists, use it immediately
+      setLoading(false);
+      fetchAppointments();
+    } else {
+      setLoading(true);
+      fetchAppointments().finally(() => {
+        setLoading(false);
+      });
+    }
   }, [authUser.uid, dispatch]);
+
 
   // DELETE APPOINTMENT MODAL FUNCTIONS
   const showDeleteModal = (id) => {
@@ -118,7 +126,7 @@ const MyAppointments = () => {
   };
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen p-4 mx-[8%]">
       <p className="pb-3 mt-4 text-md font-medium text-gray-600 border-b">
         My Appointments
       </p>

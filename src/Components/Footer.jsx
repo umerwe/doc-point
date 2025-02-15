@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
+    let navigate = useNavigate();
     return (
         <div>
             <div className='mt-[90px] md:mt-[120px] pb-10 px-0 flex flex-col gap-10 lg-[870px]:flex lg:flex-row lg:justify-between text-gray-600'>
@@ -18,11 +20,10 @@ const Footer = () => {
                 <div className='flex justify-between min-[1100px]:gap-[150px] lg:text-[19px]'>
                     <div className='w-[135px] pl-7'>
                         <p className='font-semibold mb-4 text-black'>COMPANY</p>
-                        <div className='flex flex-col gap-2 text-sm'>
-                            <span>Home</span>
-                            <span>About</span>
-                            <span>Delivery</span>
-                            <span>Privacy Policy</span>
+                        <div className='flex flex-col gap-2 text-sm cursor-pointer'>
+                            <span onClick={() => {navigate('/'); scrollTo(0,0)}}>Home</span>
+                            <span onClick={() => {navigate('/about'); scrollTo(0,0)}}>About</span>
+                            <span onClick={() => {navigate('/contact'); scrollTo(0,0)}}>Contact</span>
                         </div>
                     </div >
                     <div>

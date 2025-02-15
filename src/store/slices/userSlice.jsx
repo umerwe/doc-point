@@ -8,7 +8,7 @@ const initialState = {
   profileData: JSON.parse(localStorage.getItem("profileData")) || {},
 };
 
-export const loginSlice = createSlice({
+export const userSlice = createSlice({
   name: "loginSlice",
   initialState,
   reducers: {
@@ -40,5 +40,5 @@ export const loginSlice = createSlice({
 });
 
 export const { allDoctors, login, register, addAppointment, removeAppointments, updateProfileData } =
-  loginSlice.actions;
-export default loginSlice.reducer;
+  userSlice.actions;
+export default userSlice.reducer;

@@ -5,10 +5,12 @@ import Footer from '../Components/Footer'
 
 const About = () => {
   return (
-    <div>
+    <div className='mx-[8%]'>
       <div className="text-center text-2xl pt-14 text-[#707070]"><p>ABOUT <span className="text-gray-700 font-semibold">US</span></p></div>
-      <div className="mt-10 flex flex-col md:flex-row gap-12">
-        <img className="w-full md:max-w-[360px] rounded-full" src={assets.about_image} alt="" />
+      <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-8">
+        <div className='w-[80%] sm:w-[60%] md:w-[40%] lg:w-[35%] 2xl:w-[20%] flex items-center justify-center'>
+        <img className="w-full rounded-full" src={assets.about_image} alt="" />
+        </div>
         <div className="flex flex-col justify-center gap-6 md:w-2/4 text-sm text-gray-600">
           <p>Welcome to Prescripto, your trusted partner in managing your healthcare needs conveniently and efficiently. At Prescripto, we understand the challenges individuals face when it comes to scheduling doctor appointments and managing their health records.</p>
           <p>Prescripto is committed to excellence in healthcare technology. We continuously strive to enhance our platform, integrating the latest advancements to improve user experience and deliver superior service. Whether you're booking your first appointment or managing ongoing care, Prescripto is here to support you every step of the way.</p>
