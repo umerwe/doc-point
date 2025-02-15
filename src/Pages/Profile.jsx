@@ -167,7 +167,7 @@ const Profile = () => {
                 placeholder="Enter phone#"
               />
             ) : (
-              <p className="text-blue-500">{number}</p>
+              <p className="text-blue-500">{number ? number : profileForm.number}</p>
             )}
             <p className="font-medium">Address:</p>
             {isEditing ? (
@@ -179,7 +179,7 @@ const Profile = () => {
                 placeholder="Enter your address..."
               ></textarea>
             ) : (
-              <p>{address}</p>
+              <p>{address ? address : profileForm.address}</p>
             )}
           </div>
         </div>
@@ -201,7 +201,7 @@ const Profile = () => {
                 <option value="Female">Female</option>
               </select>
             ) : (
-              <p className="text-gray-500">{gender}</p>
+              <p className="text-gray-500">{gender ? gender : profileForm.gender}</p>
             )}
             <p className="font-medium">Birthday:</p>
             {isEditing ? (
@@ -214,7 +214,7 @@ const Profile = () => {
                 max={new Date().toISOString().split('T')[0]}
               />
             ) : (
-              <p className="text-gray-500">{birthDay}</p>
+              <p className="text-gray-500">{birthDay ? birthDay : profileForm.birthDay}</p>
             )}
           </div>
         </div>
@@ -231,9 +231,8 @@ const Profile = () => {
           ) : (
             <button
               onClick={saveInformation}
-              className={`border bg-primary text-white px-8 py-2 rounded-full transition-all ${
-                isSaving ? 'animate-pulse' : ''
-              }`}
+              className={`border bg-primary text-white px-8 py-2 rounded-full transition-all ${isSaving ? 'animate-pulse' : ''
+                }`}
             >
               {isSaving ? 'Saving ...' : 'Save Information'}
             </button>
