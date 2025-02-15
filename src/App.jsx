@@ -13,8 +13,8 @@ const ErrorFallback = React.lazy(() => import('./Components/Error/ErrorFallback'
 const Appointment = React.lazy(() => import('./Pages/Appointment'))
 const Profile = React.lazy(() => import('./Pages/Profile'))
 const MyAppointments = React.lazy(() => import('./Pages/MyAppointments'))
+const Register = React.lazy(() => import('./Pages/Register'))
 import Loader from './Loader/Loader';
-import Register from './Pages/Register';
 import { useSelector } from 'react-redux';
 
 function App() {
