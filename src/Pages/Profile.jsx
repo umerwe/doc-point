@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { updateProfileData } from '../store/slices/userSlice';
 import { FaCamera } from 'react-icons/fa';
+import imageCompression from 'browser-image-compression';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -60,19 +61,34 @@ const Profile = () => {
   };
 
   // Update local state only on file selection (no Firestore update here)
-  const handleProfilePicChange = (e) => {
+  const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result;
-        setProfilePic(base64String);
-        setProfileForm((prevState) => ({
-          ...prevState,
-          profilePic: base64String,
-        }));
-      };
-      reader.readAsDataURL(file);
+      try {
+        // Define compression options (adjust as needed)
+        const options = {
+          maxSizeMB: 0.5, // target maximum size in MB
+          maxWidthOrHeight: 1024, // maximum dimension in pixels
+          useWebWorker: true,
+        };
+  
+        // Compress the image file
+        const compressedFile = await imageCompression(file, options);
+  
+        // Convert the compressed file to base64
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result;
+          setProfilePic(base64String);
+          setProfileForm((prevState) => ({
+            ...prevState,
+            profilePic: base64String,
+          }));
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        window.notify('Image compression failed.', error);
+      }
     }
   };
 
